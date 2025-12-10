@@ -41,118 +41,134 @@ st.set_page_config(page_title="AI+OR-Tools 优化求解器", layout="wide", page
 
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+    /* 引入更现代的英文字体，中文优先使用系统默认 */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap');
 
-    /* 全局样式 */
-    html, body, [class*="css"] {
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        color: #0F172A;
+    :root {
+        --primary-color: #2563EB;
+        --background-color: #FFFFFF;
+        --secondary-bg: #F8FAFC;
+        --text-color: #0F172A;
+        --border-color: #E2E8F0;
     }
 
-    /* 标题渐变特效 */
+    /* 全局字体优化 */
+    html, body, [class*="css"] {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+        color: var(--text-color);
+        -webkit-font-smoothing: antialiased;
+    }
+    
+    /* 标题样式 */
     h1 {
-        background: linear-gradient(120deg, #4F46E5, #9333EA);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        color: #1E293B;
         font-weight: 800 !important;
         letter-spacing: -0.02em;
-        padding-bottom: 0.2em;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid var(--border-color);
+        margin-bottom: 1.5rem !important;
     }
     
     h2, h3 {
-        color: #1E293B;
+        color: #334155;
         font-weight: 700;
         letter-spacing: -0.01em;
     }
 
     /* 侧边栏优化 */
-    [data-testid="stSidebar"] {
+    section[data-testid="stSidebar"] {
         background-color: #F8FAFC;
-        border-right: 1px solid #E2E8F0;
+        border-right: 1px solid var(--border-color);
     }
     
-    /* 现代化按钮 - 灵动风格 */
+    /* 按钮样式重置 */
     .stButton > button {
-        background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+        background-color: var(--primary-color);
         color: white;
-        border-radius: 12px;
-        border: none;
-        padding: 0.75rem 1.5rem;
-        font-weight: 600;
-        letter-spacing: 0.02em;
-        box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.2), 0 2px 4px -1px rgba(79, 70, 229, 0.1);
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border-radius: 8px;
+        border: 1px solid transparent;
+        padding: 0.6rem 1.2rem;
+        font-weight: 500;
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        transition: all 0.2s ease-in-out;
     }
     
     .stButton > button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.3), 0 4px 6px -2px rgba(79, 70, 229, 0.1);
-        background: linear-gradient(135deg, #4338CA 0%, #6D28D9 100%);
+        background-color: #1D4ED8;
+        border-color: transparent;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        color: white;
     }
     
-    .stButton > button:active {
-        transform: translateY(0);
+    .stButton > button:focus {
+        color: white;
+        border-color: transparent;
+        box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
     }
 
-    /* 输入框优化 */
+    /* 文本框优化 */
     .stTextArea textarea {
-        border: 2px solid #E2E8F0;
-        border-radius: 12px;
-        background-color: #FFFFFF;
-        transition: all 0.2s ease;
-        padding: 1rem;
-        font-size: 1rem;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
     }
     
     .stTextArea textarea:focus {
-        border-color: #6366F1;
-        box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
     }
 
     /* 现代卡片容器 */
     .modern-card {
-        background: rgba(255, 255, 255, 0.8);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        padding: 2rem;
-        border-radius: 16px;
-        border: 1px solid rgba(255, 255, 255, 0.5);
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-        margin-bottom: 2rem;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    
-    .modern-card:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
-        border-color: #E2E8F0;
-    }
-    
-    /* 代码块圆角 */
-    .stCode {
+        background-color: white;
+        border: 1px solid var(--border-color);
         border-radius: 12px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    }
+    
+    /* 代码块优化 */
+    code {
+        font-family: 'JetBrains Mono', monospace !important;
+        font-size: 0.9em;
+    }
+    
+    .stCode {
+        border-radius: 8px;
         overflow: hidden;
     }
     
+    /* Expander 样式 */
+    .streamlit-expanderHeader {
+        background-color: white;
+        border-radius: 8px;
+        border: 1px solid var(--border-color);
+    }
+    
+    /* 提示框微调 */
+    .stSuccess, .stInfo, .stWarning, .stError {
+        border-radius: 8px;
+        padding: 0.75rem 1rem;
+        border: none;
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    }
+    .stInfo { background-color: #EFF6FF; color: #1D4ED8; border-left: 4px solid #3B82F6; }
+    .stSuccess { background-color: #F0FDF4; color: #15803D; border-left: 4px solid #22C55E; }
+    .stWarning { background-color: #FFFBEB; color: #B45309; border-left: 4px solid #F59E0B; }
+    .stError { background-color: #FEF2F2; color: #B91C1C; border-left: 4px solid #EF4444; }
+
     /* 图表容器 */
     [data-testid="stVegaLiteChart"] {
         background: white;
-        padding: 1.5rem;
-        border-radius: 16px;
-        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
-    }
-    
-    /* 提示框美化 */
-    .stSuccess, .stInfo, .stWarning, .stError {
-        border-radius: 12px;
-        border: none;
         padding: 1rem;
+        border-radius: 8px;
+        border: 1px solid var(--border-color);
     }
-    .stSuccess { background-color: #ECFDF5; color: #065F46; }
-    .stInfo { background-color: #EFF6FF; color: #1E40AF; }
-    
 </style>
 """, unsafe_allow_html=True)
+
 
 st.title("✨ AI+OR-Tools 智能求解平台")
 st.markdown("""
